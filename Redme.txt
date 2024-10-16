@@ -1,6 +1,0 @@
-Remarks:
-
-I'm very sorry for the unstructed files and the confusing names for the functions (putting my name infront of every functions 
-name seems rather inconvenient). I severely underestimated the time I would need for this project, thus I had little time for 
-testing and properly plotting my models. However, I hope it still becomes clear, that I put much effort into my assignment.
-Because I didn't want to turn in my assignment another day in late I decided to turn in this state of my assignment.

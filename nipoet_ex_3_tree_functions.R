@@ -1,5 +1,6 @@
 library(plotly)
 source("nipoet_2_ex.R")
+source("nipoet_ex_3_gaus.R")
 
 # train test split 
 train_test_split <- function(dataset, labels, ratio = 0.8) {
@@ -24,37 +25,6 @@ train_test_split <- function(dataset, labels, ratio = 0.8) {
                 train_labels = train_labels, test_labels = test_labels))
 }
 
-source("nipoet_ex_3_gaus.R")
-
-# R2 dataset with overlapping
-seed = 123
-set.seed(seed)
-# Generating Gaussians
-n = 200
-ds_1 = poethkow_gen_gaus(n,c(0,0), c(2,2), alpha=90) # from functions.R
-ds_2 = poethkow_gen_gaus(n,c(3,3), c(1,4), alpha=180)
-
-ds = rbind(ds_1, ds_2) #dataset
-# Generating labels = {1,2}
-ones = matrix(c(rep(1,n)),ncol=1)
-twos = matrix(c(rep(2,n)),ncol=1)
-#rep -> class labels
-
-labels = rbind(ones,twos)# what does this do??
-labels_factor = as.factor(labels)
-
-# Create 2D scatter plot
-# plot_ly(x = ~ds[,1], y = ~ds[,2], type = 'scatter', mode = 'markers',
-#         marker = list(size = 10),  color = ~labels_factor, colors=c('blue', 'red')) %>%
-#   layout(title = "2D Scatter Plot",
-#          xaxis = list(title = "X-axis"),
-#          yaxis = list(title = "Y-axis"))
-
-ds = data.frame(cbind(ds, labels))
-print(ds)
-
-
-#------visualization------#
 poethkow_plot_tree <- function(node, depth = 0, pos = 0, x_offset = 0.5, y_offset = 0.5) {
     # Set the position for drawing
     x_pos <- pos
@@ -75,7 +45,6 @@ poethkow_plot_tree <- function(node, depth = 0, pos = 0, x_offset = 0.5, y_offse
         poethkow_plot_tree(node$right_node, depth + y_offset, x_pos + x_offset, x_offset / 2, y_offset)
     }
 }
-#------ ------#
 
 # determine the information gain of a split (to select best split)
 poethkow_information_gain <- function(data, labels) { # maybe rename to feature_column or something
@@ -183,17 +152,5 @@ poethkow_tree_predict <- function(tree, dataset) {    # dataset here does not in
 
     return (predictions)
 }
-
-#----- Plot Tree -----#
-tree <- poethkow_train_tree(ds[,1:ncol(ds)-1], ds[,ncol(ds)])
-result <- poethkow_tree_predict(tree, ds)
-
-# Set up the plot
-plot.new()
-max_depth <- 5  # Adjust this based on the expected maximum depth of your tree
-plot.window(xlim = c(-1, 1), ylim = c(-max_depth, 1))  # Adjust limits based on your tree size
-title(main = "Decision Tree Visualization")
-
-poethkow_plot_tree(tree)
 
 

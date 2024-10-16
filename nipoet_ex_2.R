@@ -17,9 +17,9 @@ poethkow_entropy <- function(labels) {
 
 poethkow_fisher_score <- function(dataset, feature) {
 
-    labels <- dataset$label          # Extract the label column
-    unique_labels <- unique(labels)  # Get unique class labels
-    n_occ <- table(labels)           # Occurrences of each label
+    labels <- dataset$label          
+    unique_labels <- unique(labels)  
+    n_occ <- table(labels)  # occurances for each label
     
     mean_total <- mean(dataset[[feature]])  # Calculate mean for the specified feature
     
@@ -67,9 +67,9 @@ labels_factor = as.factor(labels)  # Convert labels to a factor for color coding
 # Plotting the dataset
 plot_ly(x = ~ds[,1], y = ~ds[,2], type = 'scatter', mode = 'markers',
         marker = list(size = 10), color = ~labels_factor, colors=c('blue', 'red')) %>%
-  layout(title = "2D Scatter Plot: Separable by Feature x, Non-separable by Feature y",
-         xaxis = list(title = "X-axis (Feature x: Separable)"),
-         yaxis = list(title = "Y-axis (Feature y: Non-separable)"))
+  layout(title = "2D Scatter Plot",
+         xaxis = list(title = "X-axis"),
+         yaxis = list(title = "Y-axis"))
 
 
 print(poethkow_fisher_score(ds, "x"))

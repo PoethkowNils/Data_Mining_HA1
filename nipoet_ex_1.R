@@ -1,26 +1,25 @@
-#distance function
-
 calc_distance <- function(method=NaN, p1, p2) { #just the distance between two points
-  
-  # maybe implement some checks
-    # checks if points have same dimensions
-  
-  if (identical(method, "manhatten")) {
+
+  if (length(p1)!=length(p2)) {
+    stop("Points have different dimenions")
+  }
+
+  if (identical(method, "manhattan")) {
     sum <- 0
     for (i in 1:length(p1)) {
-        sum <- sum + (p1[i] + p2[i])
+        sum <- sum + abs(p1[i] - p2[i])
     }
     return (sum)
   }
   else if (identical(method, "euclidean")) {
     sum <- 0
     for (i in 1:length(p1)) {
-      sum <- sum + abs(p1[i] - p2[i])
+      sum <- sum + (p1[i] - p2[i])^2
     }
-    return (sum)
+    return (sum^0.5)
   }
-  else if (identical(method, "russe")) {
-    #maybe do this differently (can also be done without storing all values, just compare current largest with new calculated one)
+  else if (identical(method, "chebyshev")) {
+    # maybe do this differently (can also be done without storing all values, just compare current largest with new calculated one)
 
     distances<-abs(p1[1]-p2[1])
     for (i in 2:length(p1)) {
@@ -30,10 +29,17 @@ calc_distance <- function(method=NaN, p1, p2) { #just the distance between two p
     return (distances[length(p1)])
   }
   
-  return (Nan)
+  stop("Invalid method specified.")
 }
 
-p1<-c(1,3,2)
+# Define two points in 2D space
+p1 <- c(1, 2)  # Point 1
+p2 <- c(4, 6)  # Point 2
 
-calc_distance("russe", p1, c(2,3,4))
-
+# Calculate distances
+manhattan_distance <- calc_distance("manhattan", p1, p2)
+euclidean_distance <- calc_distance("euclidean", p1, p2)
+chebyshev_distance <- calc_distance("chebyshev", p1, p2)
+print(manhattan_distance)
+print(euclidean_distance)
+print(chebyshev_distance)
